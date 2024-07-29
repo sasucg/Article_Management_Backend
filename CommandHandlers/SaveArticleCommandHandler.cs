@@ -2,15 +2,19 @@
 using Article_Management_Backend.Commands;
 using MediatR;
 using Article_Management_Backend.ReadModel.Entities;
+using FluentValidation;
+
 namespace Article_Management_Backend.CommandHandlers
 {
     public class SaveArticleCommandHandler : IRequestHandler<SaveArticleCommand, SaveArticleResponse>
     {
         private readonly IArticleRepository _articleRepository;
+        private readonly IValidator<SaveArticleCommand> _validator;
 
-        public SaveArticleCommandHandler(IArticleRepository articleRepository)
+        public SaveArticleCommandHandler(IArticleRepository articleRepository, IValidator<SaveArticleCommand> validator)
         {
             _articleRepository = articleRepository;
+            _validator = validator;
         }
 
         // Usually I would use same request & command for insert / update
@@ -36,7 +40,7 @@ namespace Article_Management_Backend.CommandHandlers
                         CreatedOn = DateTime.UtcNow,
                         CreatedBy = Guid.NewGuid(),
                         Description = request.Description,
-                        PublishDate = DateTime.UtcNow
+                        PublishDate = request.PublishDate
                     };
 
                     await _articleRepository.SaveArticle(article, cancellationToken);

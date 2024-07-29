@@ -2,15 +2,18 @@
 using Article_Management_Backend.Commands;
 using MediatR;
 using Article_Management_Backend.ReadModel.Entities;
+using FluentValidation;
 namespace Article_Management_Backend.CommandHandlers
 {
     public class UpdateArticleCommandHandler : IRequestHandler<UpdateArticleCommand, UpdateArticleResponse>
     {
         private readonly IArticleRepository _articleRepository;
+        private readonly IValidator<UpdateArticleCommand> _validator;
 
-        public UpdateArticleCommandHandler(IArticleRepository articleRepository)
+        public UpdateArticleCommandHandler(IArticleRepository articleRepository, IValidator<UpdateArticleCommand> validator)
         {
             _articleRepository = articleRepository;
+            _validator = validator;
         }
 
         public async Task<UpdateArticleResponse> Handle(UpdateArticleCommand request, CancellationToken cancellationToken)

@@ -1,6 +1,8 @@
-﻿using Article_Management_Backend.DataContext;
+﻿using Article_Management_Backend.Commands;
+using Article_Management_Backend.DataContext;
 using Article_Management_Backend.ReadModel.Interfaces.Repositories;
 using Article_Management_Backend.Repositories;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
@@ -39,6 +41,9 @@ namespace Article_Management_Backend
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
+            services.AddTransient<IValidator<SaveArticleCommand>, SaveArticleCommandValidator>();
+            services.AddTransient<IValidator<UpdateArticleCommand>, UpdatedArticleCommandValidator>();
+            services.AddTransient<IValidator<DeleteArticleCommand>, DeleteArticleCommandValidator>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IDictionaryRepository, DictionaryRepository>();
         }

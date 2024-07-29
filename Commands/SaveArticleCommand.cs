@@ -9,6 +9,7 @@ namespace Article_Management_Backend.Commands
         public string ArticleCode { get; set; }
         public string Description { get; set; }
         public Guid ArticleStatusId { get; set; }
+        public DateTime PublishDate { get; set; }
     }
 
     public class SaveArticleResponse

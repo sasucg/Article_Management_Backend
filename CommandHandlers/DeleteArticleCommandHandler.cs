@@ -2,15 +2,18 @@
 using Article_Management_Backend.Commands;
 using MediatR;
 using Article_Management_Backend.ReadModel.Entities;
+using FluentValidation;
 namespace Article_Management_Backend.CommandHandlers
 {
     public class DeleteArticleCommandHandler : IRequestHandler<DeleteArticleCommand, DeleteArticleResponse>
     {
         private readonly IArticleRepository _articleRepository;
+        private readonly IValidator<DeleteArticleCommand> _validator;
 
-        public DeleteArticleCommandHandler(IArticleRepository articleRepository)
+        public DeleteArticleCommandHandler(IArticleRepository articleRepository, IValidator<DeleteArticleCommand> validator)
         {
             _articleRepository = articleRepository;
+            _validator = validator;
         }
 
         public async Task<DeleteArticleResponse> Handle(DeleteArticleCommand request, CancellationToken cancellationToken)
